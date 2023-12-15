@@ -25,5 +25,30 @@ def upload_video(youtube, file_path, title, description):
             'description':'description',
             'tags': ['python', 'youtube', 'api'],
             'categoryId': '22'
-        }
+        },
+
+        "status": {
+            "privacyStatus": "private",  # Установите "public" для публичной загрузки
+        },
     }
+
+    media_file = MediaFileUpload(file_path)
+
+    response = (
+        youtube.videos()
+        .insert(
+            part="snippet,status",
+            body=request_body,
+            media_body=media_file,
+        )
+        .execute()
+    )
+
+    print("Video id '{}' was successfully uploaded.".format(response["id"]))
+
+# Пример использования функции загрузки видео
+video_file_path = "path/to/your/video.mp4"
+video_title = "Your Video Title"
+video_description = "Your video description goes here."
+
+upload_video(youtube, video_file_path, video_title, video_description)
