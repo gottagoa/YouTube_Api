@@ -4,6 +4,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 
+
 SCOPES=['https://www.googleapis.com/auth/youtube.upload']
 
 CLIENT_SECRET_FILE='client_secret.json'
@@ -22,33 +23,30 @@ def upload_video(youtube, file_path, title, description):
     request_body={
         'snippet':{
             'title': title,
-            'description':'description',
+            'description':description,
             'tags': ['python', 'youtube', 'api'],
-            'categoryId': '22'
+            'categoryId': '27'
         },
-
-        "status": {
-            "privacyStatus": "private",  # Установите "public" для публичной загрузки
-        },
+        'status': {
+            'privacyStatus': 'private',
+        }
     }
 
-    media_file = MediaFileUpload(file_path)
+    media_file=MediaFileUpload(file_path)
 
-    response = (
+    response=(
         youtube.videos()
         .insert(
-            part="snippet,status",
+            part='snippet, status',
             body=request_body,
             media_body=media_file,
         )
         .execute()
     )
+    print(f"Video id {response['id']} was succesfully uploaded.")
 
-    print("Video id '{}' was successfully uploaded.".format(response["id"]))
+file_path='Users/ajzanylsabdanbekova/Desktop/lesson4-списки.mov'
+title="Онлайн урок 4-Списки. Методы списков. Индексы."
+description='В онлайн уроке раскрыта тема работы и конструкции списков в Python, а также решены задачи'
 
-# Пример использования функции загрузки видео
-video_file_path = "path/to/your/video.mp4"
-video_title = "Your Video Title"
-video_description = "Your video description goes here."
-
-upload_video(youtube, video_file_path, video_title, video_description)
+upload_video(youtube, file_path, title, description)
