@@ -1,5 +1,4 @@
 import os
-import socket
 import google.oauth2.credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
@@ -12,7 +11,9 @@ SCOPES=['https://www.googleapis.com/auth/youtube.upload']
 CLIENT_SECRET_FILE='/Users/ajzanylsabdanbekova/Desktop/python/youtubeapi/own_channel/client_secret.json'
 CHANNEL_ID='UCrOYjS2VKmDAy39AI2BCfKw'
 
-flow=InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
+# flow=InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
+flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
+
 credentials=flow.run_local_server()
 
 token_file='token.json'
