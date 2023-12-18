@@ -11,8 +11,9 @@ SCOPES=['https://www.googleapis.com/auth/youtube.upload']
 CLIENT_SECRET_FILE='/Users/ajzanylsabdanbekova/Desktop/python/youtubeapi/own_channel/client_secret.json'
 CHANNEL_ID='UCrOYjS2VKmDAy39AI2BCfKw'
 
-# flow=InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
+
 flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
+flow.redirect_uri = "https://localhost:8000/"
 
 credentials=flow.run_local_server()
 
