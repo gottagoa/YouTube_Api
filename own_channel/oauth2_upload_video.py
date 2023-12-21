@@ -12,9 +12,8 @@ CLIENT_SECRET_FILE='/Users/ajzanylsabdanbekova/Desktop/python/youtubeapi/own_cha
 CHANNEL_ID='UCrOYjS2VKmDAy39AI2BCfKw'
 
 
-# flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
-# flow.redirect_uri = "https://localhost:9000"
 flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
+flow.redirect_uri = "https://localhost:9000"
 credentials = flow.run_local_server()
 
 
@@ -57,3 +56,4 @@ title="Онлайн урок 4-Списки. Методы списков. Инд
 description='В онлайн уроке раскрыта тема работы и конструкции списков в Python, а также решены задачи'
 
 upload_video(youtube, file_path, title, description)
+
