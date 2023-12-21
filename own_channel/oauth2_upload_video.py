@@ -1,9 +1,9 @@
 import os
+import socket
 import google.oauth2.credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
-
 
 
 SCOPES=['https://www.googleapis.com/auth/youtube.upload']
@@ -13,7 +13,7 @@ CHANNEL_ID='UCrOYjS2VKmDAy39AI2BCfKw'
 
 
 flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
-flow.redirect_uri = "https://localhost:8000/"
+flow.redirect_uri = "https://localhost:9000"
 
 credentials=flow.run_local_server()
 
@@ -22,6 +22,14 @@ with open(token_file, 'w') as token:
     token.write(credentials.to_json())
 
 youtube=build('youtube', 'v3', credentials=credentials)
+
+
+# def run():
+#     server_socket=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+#     server_socket.bind(('localhost', 8000))
+#     server_socket.listen()
+
 
 def upload_video(youtube, file_path, title, description):
     request_body={

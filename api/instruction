@@ -1,80 +1,80 @@
-1) Создать проект в консоли разработчика Google:
+# ; 1) Создать проект в консоли разработчика Google:
 
-Перейти на Google Cloud Console.
-Создать новый проект или выбрать существующий.
-Включить API YouTube Data API v3.
-Создайть учетные данные OAuth 2.0 для вашего проекта.
+# ; Перейти на Google Cloud Console.
+# ; Создать новый проект или выбрать существующий.
+# ; Включить API YouTube Data API v3.
+# ; Создайть учетные данные OAuth 2.0 для вашего проекта.
 
-2) Установить библиотеки
-pip install google-auth google-auth-oauthlib google-auth-httplib2
+# ; 2) Установить библиотеки
+# ; pip install google-auth google-auth-oauthlib google-auth-httplib2
 
-3) Примерный код для аутентификации и загрузки видео
+# ; 3) Примерный код для аутентификации и загрузки видео
 
-import os
-import google.oauth2.credentials
-from google.auth.transport.requests import Request
-from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.discovery import build
-from googleapiclient.http import MediaFileUpload
+# ; import os
+# ; import google.oauth2.credentials
+# ; from google.auth.transport.requests import Request
+# ; from google_auth_oauthlib.flow import InstalledAppFlow
+# ; from googleapiclient.discovery import build
+# ; from googleapiclient.http import MediaFileUpload
 
-SCOPES = ['https://www.googleapis.com/auth/youtube.upload']
-CLIENT_SECRET_FILE = 'client_secret.json'  
-API_NAME = 'youtube'
-API_VERSION = 'v3'
+# ; SCOPES = ['https://www.googleapis.com/auth/youtube.upload']
+# ; CLIENT_SECRET_FILE = 'client_secret.json'  
+# ; API_NAME = 'youtube'
+# ; API_VERSION = 'v3'
 
-def authenticate():
-    creds = None
-    token_file = 'token.json'
+# ; def authenticate():
+# ;     creds = None
+# ;     token_file = 'token.json'
 
-    if os.path.exists(token_file):
-        creds = google.oauth2.credentials.Credentials.from_authorized_user_file(token_file)
+# ;     if os.path.exists(token_file):
+# ;         creds = google.oauth2.credentials.Credentials.from_authorized_user_file(token_file)
 
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
-            creds = flow.run_local_server(port=0)
+# ;     if not creds or not creds.valid:
+# ;         if creds and creds.expired and creds.refresh_token:
+# ;             creds.refresh(Request())
+# ;         else:
+# ;             flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
+# ;             creds = flow.run_local_server(port=0)
 
-        with open(token_file, 'w') as token:
-            token.write(creds.to_json())
+# ;         with open(token_file, 'w') as token:
+# ;             token.write(creds.to_json())
 
-    return creds
+# ;     return creds
 
-def upload_video(video_path, title, description):
-    credentials = authenticate()
-    youtube = build(API_NAME, API_VERSION, credentials=credentials)
+# ; def upload_video(video_path, title, description):
+# ;     credentials = authenticate()
+# ;     youtube = build(API_NAME, API_VERSION, credentials=credentials)
 
-    request_body = {
-        'snippet': {
-            'title': title,
-            'description': description,
-        },
-        'status': {
-            'privacyStatus': 'public',  # Может быть 'public', 'private' или 'unlisted'
-        }
-    }
+# ;     request_body = {
+# ;         'snippet': {
+# ;             'title': title,
+# ;             'description': description,
+# ;         },
+# ;         'status': {
+# ;             'privacyStatus': 'public',  # Может быть 'public', 'private' или 'unlisted'
+# ;         }
+# ;     }
 
-    media_file = MediaFileUpload(video_path)
+# ;     media_file = MediaFileUpload(video_path)
 
-    videos_insert_response = youtube.videos().insert(
-        part='snippet,status',
-        body=request_body,
-        media_body=media_file
-    ).execute()
+# ;     videos_insert_response = youtube.videos().insert(
+# ;         part='snippet,status',
+# ;         body=request_body,
+# ;         media_body=media_file
+# ;     ).execute()
 
-    print('Video uploaded! Video ID:', videos_insert_response['id'])
+# ;     print('Video uploaded! Video ID:', videos_insert_response['id'])
 
-if __name__ == '__main__':
-    video_path = 'path/to/your/video.mp4'
-    video_title = 'Your Video Title'
-    video_description = 'Your Video Description'
+# ; if __name__ == '__main__':
+# ;     video_path = 'path/to/your/video.mp4'
+# ;     video_title = 'Your Video Title'
+# ;     video_description = 'Your Video Description'
 
-    upload_video(video_path, video_title, video_description)
+# ;     upload_video(video_path, video_title, video_description)
 
 
-4) Запустить код:
+# ; 4) Запустить код:
 
-Заменить 'client_secret.json' на путь к файлу client_secret.json.
-Указать путь к видео, заголовок и описание.
-Запустить скрипт, который откроет окно браузера для аутентификации через Google.
+# ; Заменить 'client_secret.json' на путь к файлу client_secret.json.
+# ; Указать путь к видео, заголовок и описание.
+# ; Запустить скрипт, который откроет окно браузера для аутентификации через Google.
