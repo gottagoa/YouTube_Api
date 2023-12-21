@@ -12,10 +12,11 @@ CLIENT_SECRET_FILE='/Users/ajzanylsabdanbekova/Desktop/python/youtubeapi/own_cha
 CHANNEL_ID='UCrOYjS2VKmDAy39AI2BCfKw'
 
 
+# flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
+# flow.redirect_uri = "https://localhost:9000"
 flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
-flow.redirect_uri = "https://localhost:9000"
+credentials = flow.run_local_server()
 
-credentials=flow.run_local_server()
 
 token_file='token.json'
 with open(token_file, 'w') as token:
@@ -23,12 +24,6 @@ with open(token_file, 'w') as token:
 
 youtube=build('youtube', 'v3', credentials=credentials)
 
-
-# def run():
-#     server_socket=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-#     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-#     server_socket.bind(('localhost', 8000))
-#     server_socket.listen()
 
 
 def upload_video(youtube, file_path, title, description):
