@@ -23,8 +23,6 @@ with open(token_file, 'w') as token:
 
 youtube=build('youtube', 'v3', credentials=credentials)
 
-
-
 def upload_video(youtube, file_path, title, description):
     request_body={
         'snippet':{
